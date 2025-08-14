@@ -67,8 +67,8 @@ def test_login_with_credentials(app_config, driver: WebDriver):
     time.sleep(5)
 
     driver.find_element(By.CSS_SELECTOR, "[data-testid='input_username']").send_keys('ajcordova@hispasat.pe')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password'").send_keys('123456')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text'").click()
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='input_password'").send_keys('123456')
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='button-signon-text'").click()
 
     time.sleep(8)
 
@@ -78,7 +78,7 @@ def test_user_caracteres_alfanumericos(app_config, driver: WebDriver):
 
     wait = WebDriverWait(driver, 10)
     input_username = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='input_username']")))
-    input_password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid = 'input_password'")))
+    input_password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='input_password'")))
 
     input_username.send_keys("!$%&/()/#=?¡¿'12345567890asdQW")
     input_password.send_keys("!$%&/()/#=?¡¿'12345567890asdQW")
@@ -95,7 +95,7 @@ def test_password_caracteres_alfanumericos(app_config, driver: WebDriver):
 
     wait = WebDriverWait(driver, 10)
     input_username = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='input_username']")))
-    input_password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid = 'input_password'")))
+    input_password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='input_password'")))
 
     input_username.send_keys("!$%&/()/#=?¡¿'12345567890asdQW")
     input_password.send_keys("!$%&/()/#=?¡¿'12345567890asdQW")
@@ -115,7 +115,7 @@ def test_boton_login (app_config, driver: WebDriver):
     wait = WebDriverWait(driver, 10)
     loggin_button = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='button-signon-focus-box']")))
     input_username = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='input_username']")))
-    input_password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid = 'input_password'")))
+    input_password = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='input_password'")))
 
     input_username.send_keys("!$%&/()/#=?¡¿'12345567890asdQW")
     input_password.send_keys("!$%&/()/#=?¡¿'12345567890asdQW")
@@ -138,8 +138,8 @@ def test_loading_generico (app_config, driver: WebDriver):
 
     #Iniciamos sesión para ver la animación de carga
     driver.find_element(By.CSS_SELECTOR, "[data-testid='input_username']").send_keys('ajcordova@hispasat.pe')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password'").send_keys('123456')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text'").click()
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='input_password'").send_keys('123456')
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='button-signon-text'").click()
 
     #animación de carga (puntos de carga)
     loading_dotted = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted'"))) #Bloque div con el contenedor de puntos
@@ -175,8 +175,8 @@ def test_login_cuenta_suspendida(app_config, driver: WebDriver):
     time.sleep(3)
 
     driver.find_element(By.CSS_SELECTOR, "[data-testid='input_username']").send_keys('selenium_net_suspend')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password']").send_keys('hispasat.lab')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text'").click()
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='input_password']").send_keys('hispasat.lab')
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='button-signon-text'").click()
 
     #Esperar animación de carga
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted'")))
@@ -195,7 +195,7 @@ def login_con_otra_cuenta (app_config, driver: WebDriver): #Pendiente con conexi
 @mark.login
 def test_cerrar_sesion_desde_configuracion (app_config, driver: WebDriver):
     driver.get(app_config.base_url)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
 
     time.sleep(2)
 
@@ -204,8 +204,8 @@ def test_cerrar_sesion_desde_configuracion (app_config, driver: WebDriver):
 
     if driver.current_url == login_url :
         driver.find_element(By.CSS_SELECTOR, "[data-testid='input_username']").send_keys('ajcordova@hispasat.pe')
-        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password']").send_keys('123456')
-        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text']").click()
+        driver.find_element(By.CSS_SELECTOR, "[data-testid='input_password']").send_keys('123456')
+        driver.find_element(By.CSS_SELECTOR, "[data-testid='button-signon-text']").click()
         # Esperar animación de carga
         wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted']")))
         wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted']")))
@@ -218,8 +218,10 @@ def test_cerrar_sesion_desde_configuracion (app_config, driver: WebDriver):
         raise AssertionError("❌ No se encontraron los elementos para el login")
 
     #Cerrar sesión
-    username = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid = 'username-text']")))
-    username.click()
+    menu_user = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='userAccountDropdown']")))
+    nombre_usuario = menu_user.find_element(By.CSS_SELECTOR, "[data-testid='username-text']").text
+    print(f"Usuario logueado: {nombre_usuario}")
+    menu_user.click()
 
     btn_cerrar_sesion = wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Cerrar sesión')]")))
     btn_cerrar_sesion.click()
