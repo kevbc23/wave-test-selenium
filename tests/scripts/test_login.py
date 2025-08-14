@@ -175,7 +175,7 @@ def test_login_cuenta_suspendida(app_config, driver: WebDriver):
     time.sleep(3)
 
     driver.find_element(By.CSS_SELECTOR, "[data-testid='input_username']").send_keys('selenium_net_suspend')
-    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password'").send_keys('hispasat.lab')
+    driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password']").send_keys('hispasat.lab')
     driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text'").click()
 
     #Esperar animación de carga
@@ -204,19 +204,28 @@ def test_cerrar_sesion_desde_configuracion (app_config, driver: WebDriver):
 
     if driver.current_url == login_url :
         driver.find_element(By.CSS_SELECTOR, "[data-testid='input_username']").send_keys('ajcordova@hispasat.pe')
-        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password'").send_keys('123456')
-        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text'").click()
+        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'input_password']").send_keys('123456')
+        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'button-signon-text']").click()
         # Esperar animación de carga
-        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted'")))
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted']")))
+        wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted']")))
+
+        #Esperar la url del home
+        wait.until(EC.url_to_be(home_url))
+        print(home_url)
 
     else:
-        print("No se encontraron los elementos para el login")
+        raise AssertionError("❌ No se encontraron los elementos para el login")
 
-    if driver.current_url == home_url:
-        driver.find_element(By.CSS_SELECTOR, "[data-testid = 'username-text'").click()
-        driver.find_element(By.XPATH, "//div[contains(text(),'Cerrar sesión')]").click()
-    else:
-        print("No se encontraron los elementos para el cierre de sesión")
+    #Cerrar sesión
+    username = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid = 'username-text']")))
+    username.click()
+
+    btn_cerrar_sesion = wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Cerrar sesión')]")))
+    btn_cerrar_sesion.click()
+
+    #Vuelve a página de login
+    wait.until(EC.url_to_be(login_url))
 
     assert driver.current_url == login_url, "❌ No se ejecutó el cierre de sesión"
     print("✅ Se cerró la sesión desde el menú del usuario > configuración")
