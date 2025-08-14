@@ -14,12 +14,14 @@ def pytest_addoption(parser):
 @fixture(params=["chrome", "edge"])
 def driver(request):
     if request.param == "chrome":
-        # op = webdriver.ChromeOptions()
-        # op.add_argument('--headless')
-        # driver = webdriver.Chrome(options=op)
-        driver = webdriver.Chrome()
+        op = webdriver.ChromeOptions()
+        op.add_argument('--headless')
+        driver = webdriver.Chrome(options=op)
+        #driver = webdriver.Chrome()
     elif request.param == "edge":
-        driver = webdriver.Edge()
+        op = webdriver.EdgeOptions()
+        op.add_argument('--headless')
+        driver = webdriver.Edge(options=op)
     else:
         raise ValueError("Navegador no soportado")
 

@@ -33,7 +33,7 @@ def test_recuperar_contrasena(app_config, driver: WebDriver):
 
     assert current_url == expected_url, f"❌ URL incorrecta: se esperaba '{expected_url}' pero se obtuvo '{current_url}'"
 
-    print("✅ URL de Términos y Condiciones validada correctamente.")
+    print("✅ Flujo de recuperación de contraseña exitoso.")
 
 
 def test_terminos_y_condiciones(app_config, driver: WebDriver):
