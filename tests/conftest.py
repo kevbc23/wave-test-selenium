@@ -4,6 +4,9 @@ from _pytest.fixtures import fixture
 from selenium import webdriver
 from tests.config import Config
 import time
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
+
 
 
 def pytest_addoption(parser):
@@ -16,20 +19,23 @@ def pytest_addoption(parser):
 @fixture(params=["chrome", "edge"])
 def driver(request):
     if request.param == "chrome":
-        # op = webdriver.ChromeOptions()
-        # op.add_argument('--headless')
-        # driver = webdriver.Chrome(options=op)
+        # options = ChromeOptions()
+        # options.add_argument("--headless=new")  # Headless moderno
+        # options.add_argument("--window-size=1920,1080")
+        # options.add_argument("--disable-gpu")
+        # options.add_argument("--no-sandbox")
+        # driver = webdriver.Chrome(options=options)
         driver = webdriver.Chrome()
-    elif request.param == "edge":
-        op = webdriver.EdgeOptions()
-        op.add_argument("--headless=new")
-        op.add_argument("--window-size=1920,1080")
-        driver = webdriver.Edge(options=op)
-        #driver = webdriver.Chrome()
-    else:
-        raise ValueError("Navegador no soportado")
 
-    driver.maximize_window()
+    elif request.param == "edge":
+        options = EdgeOptions()
+        options.add_argument("--headless=new")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        driver = webdriver.Edge(options=options)
+
+    driver.set_window_size(1920, 1080)  # Forzamos por si acaso
     yield driver
     driver.quit()
 

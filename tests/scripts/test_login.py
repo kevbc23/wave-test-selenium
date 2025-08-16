@@ -192,10 +192,10 @@ def login_dispositivo_eliminado (app_config, driver: WebDriver): #Pendiente con 
 def login_con_otra_cuenta (app_config, driver: WebDriver): #Pendiente con conexión a api de nagra
     return none_of()
 
-@mark.login
+
 def test_cerrar_sesion_desde_configuracion (app_config, driver: WebDriver):
     driver.get(app_config.base_url)
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 10)
 
     time.sleep(2)
 
@@ -212,14 +212,21 @@ def test_cerrar_sesion_desde_configuracion (app_config, driver: WebDriver):
 
         #Esperar la url del home
         wait.until(EC.url_to_be(home_url))
+        print(driver.get_window_size())
         print(home_url)
 
     else:
         raise AssertionError("❌ No se encontraron los elementos para el login")
 
     #Cerrar sesión
+    driver.save_screenshot("debug.png")
+
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="username-text"]')))
+
     menu_user = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='userAccountDropdown']")))
     nombre_usuario = menu_user.find_element(By.CSS_SELECTOR, "[data-testid='username-text']").text
+
+
     print(f"Usuario logueado: {nombre_usuario}")
     menu_user.click()
 
