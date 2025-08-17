@@ -20,20 +20,22 @@ def pytest_addoption(parser):
 def driver(request):
     if request.param == "chrome":
         # options = ChromeOptions()
-        # options.add_argument("--headless=new")  # Headless moderno
+        # options.add_argument("--headless=new")  # Activa modo Headless
         # options.add_argument("--window-size=1920,1080")
         # options.add_argument("--disable-gpu")
         # options.add_argument("--no-sandbox")
         # driver = webdriver.Chrome(options=options)
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome() ##Descomentar para habilitar vista de navegador
+
 
     elif request.param == "edge":
         options = EdgeOptions()
-        options.add_argument("--headless=new")
+        options.add_argument("--headless=new")  # Activa modo Headless
         options.add_argument("--window-size=1920,1080")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         driver = webdriver.Edge(options=options)
+        #driver = webdriver.Edge() ##Descomentar para habilitar vista de navegador
 
     driver.set_window_size(1920, 1080)  # Forzamos por si acaso
     yield driver

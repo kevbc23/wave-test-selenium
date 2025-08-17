@@ -20,7 +20,7 @@ def test_recuperar_contrasena(app_config, driver: WebDriver):
     login_window = driver.current_window_handle
     print(login_window)
 
-    driver.find_element(By.CSS_SELECTOR, "[data-testid='recover-password-text'").click()
+    driver.find_element(By.CSS_SELECTOR, "[data-testid='recover-password-text']").click()
     time.sleep(5)
 
     for window_handle in driver.window_handles:
