@@ -27,7 +27,6 @@ def driver(request):
         # driver = webdriver.Chrome(options=options)
         driver = webdriver.Chrome() ##Descomentar para habilitar vista de navegador
 
-
     elif request.param == "edge":
         options = EdgeOptions()
         options.add_argument("--headless=new")  # Activa modo Headless

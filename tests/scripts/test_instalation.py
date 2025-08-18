@@ -150,7 +150,7 @@ def test_get_url_ayuda(app_config, driver: WebDriver): #Se obtiene desde el men�
     assert url_olvide_contrasena is not None, "No se encontró la URL: Olvidé Contraseña"
     print("URL: Ayuda : ", url_olvide_contrasena)
 
-@mark.ui
+
 def test_logo_de_marca (app_config,driver: WebDriver):
     driver.get(app_config.base_url)
     wait = WebDriverWait(driver, 10)
@@ -170,6 +170,19 @@ def test_logo_de_marca (app_config,driver: WebDriver):
     assert height == 97, f"❌ El alto esperado era 96px pero se obtuvo {height}px"
 
     print("✅ Validación correcta: las medidas del logo coinciden con lo esperado.")
+
+@mark.ui
+def test_fondo_bienvenida (app_config,driver: WebDriver):
+    driver.get(app_config.base_url)
+    wait = WebDriverWait(driver, 10)
+
+    fondo_div = wait.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "div[style*='splash_tv.webp']"))
+    )
+
+    assert fondo_div is not None, f"❌ No se muestra el fondo"
+
+    print("✅ El fondo se muestra correctamente")
 
 
 
