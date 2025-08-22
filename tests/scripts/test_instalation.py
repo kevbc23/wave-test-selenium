@@ -1,3 +1,4 @@
+import statistics
 import time
 
 from pytest import mark
@@ -171,18 +172,70 @@ def test_logo_de_marca (app_config,driver: WebDriver):
 
     print("✅ Validación correcta: las medidas del logo coinciden con lo esperado.")
 
-@mark.ui
+
 def test_fondo_bienvenida (app_config,driver: WebDriver):
     driver.get(app_config.base_url)
     wait = WebDriverWait(driver, 10)
 
-    fondo_div = wait.until(
+    #Validar fondo en login
+    fondo_div_login = wait.until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, "div[style*='splash_tv.webp']"))
     )
 
-    assert fondo_div is not None, f"❌ No se muestra el fondo"
+    assert fondo_div_login is not None, f"❌ No se muestra el fondo"
+    print("✅ El fondo en login se muestra correctamente")
 
-    print("✅ El fondo se muestra correctamente")
+    login(driver, "ajcordova@hispasat.pe","123456")
+
+    #Validar fondo en menú/configuración
+    btn_settings = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[testid="settings-icon"]')))
+    btn_settings.click()
+
+    fondo_div_configuracion = wait.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "div[style*='splash_tv.webp']"))
+    )
+
+    assert fondo_div_configuracion is not None, f"❌ No se muestra el fondo"
+    print("✅ El fondo en menú/configuración se muestra correctamente")
+
+@mark.ui
+def test_tiempo_de_splash (app_config, driver: WebDriver):
+
+    driver.get(app_config.base_url)
+    wait = WebDriverWait(driver, 10)
+    resultados = []
+
+    #Realizamos 10 pruebas de tiempo de splash y calcumos el promedio final
+    for i in range(10):
+        #Login
+        login(driver, "ajcordova@hispasat.pe", "123456")
+        time_actual = time.time()
+
+        # Esperar que desaparezca animación de carga
+        wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, "[data-testid='Loading_Dotted']")))
+
+        home_url = "https://web-stag.hispasatprod.opentv.com/discover"
+        wait.until(EC.url_to_be(home_url))
+
+        time_splash_end = time.time()
+        time_calculated_splash = time_splash_end - time_actual
+        resultados.append(time_calculated_splash)
+
+        print(f"Test Splash {i + 1} -> ⏱ Splash time: {time_calculated_splash:.2f} segundos")
+
+        #Encontramos el menu usuario
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="username-text"]')))
+        menu_user = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-testid='userAccountDropdown']")))
+        menu_user.click()
+
+        #Cerramos sesión
+        btn_cerrar_sesion = wait.until(
+            EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Cerrar sesión')]")))
+        btn_cerrar_sesion.click()
+
+    # Calcular promedio
+    promedio = statistics.mean(resultados)
+    print(f"\n📊 Tiempo promedio del splash en 10 pruebas: {promedio:.2f} segundos")
 
 
 
