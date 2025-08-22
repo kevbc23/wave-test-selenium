@@ -198,7 +198,7 @@ def test_fondo_bienvenida (app_config,driver: WebDriver):
     assert fondo_div_configuracion is not None, f"❌ No se muestra el fondo"
     print("✅ El fondo en menú/configuración se muestra correctamente")
 
-@mark.ui
+
 def test_tiempo_de_splash (app_config, driver: WebDriver):
 
     driver.get(app_config.base_url)
